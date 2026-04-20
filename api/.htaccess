@@ -1,0 +1,66 @@
+# ==========================================
+# VHOENIX API — Apache Configuration
+# ==========================================
+
+# Enable rewrite engine
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+</IfModule>
+
+# ==========================================
+# Security: Block direct access to sensitive files
+# ==========================================
+<FilesMatch "^(config\.php|config\.example\.php|\.htaccess|\.env)$">
+    Require all denied
+</FilesMatch>
+
+# Block access to any .sql, .md, .log files
+<FilesMatch "\.(sql|md|log|bak|backup)$">
+    Require all denied
+</FilesMatch>
+
+# ==========================================
+# Security headers
+# ==========================================
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "DENY"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+    
+    # HSTS (only enable after confirming HTTPS works)
+    # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    
+    # Remove PHP version disclosure
+    Header unset X-Powered-By
+</IfModule>
+
+# ==========================================
+# PHP error handling (don't leak info in production)
+# ==========================================
+<IfModule mod_php.c>
+    php_flag display_errors off
+    php_flag log_errors on
+</IfModule>
+<IfModule mod_php7.c>
+    php_flag display_errors off
+    php_flag log_errors on
+</IfModule>
+<IfModule mod_php8.c>
+    php_flag display_errors off
+    php_flag log_errors on
+</IfModule>
+
+# ==========================================
+# Disable directory listing
+# ==========================================
+Options -Indexes
+
+# ==========================================
+# Prevent PHP execution in upload dirs (future-proof)
+# ==========================================
+<FilesMatch "\.(jpg|jpeg|png|gif|svg|webp|ico|pdf)$">
+    <IfModule mod_rewrite.c>
+        RewriteEngine Off
+    </IfModule>
+</FilesMatch>
