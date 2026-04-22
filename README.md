@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./banner.png" alt="VHOENIX Banner" width="100%">
+</p>
+
 # VHOENIX — AI Research Agent for Solana
 
 ![VHOENIX](https://img.shields.io/badge/VHOENIX-v1.0-00E676?style=flat-square&logoColor=white)
